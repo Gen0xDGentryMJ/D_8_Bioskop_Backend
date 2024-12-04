@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KursiController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -12,3 +13,5 @@ Route::post('/user/register', [UserController::class, 'register']);
 Route::post('/user/login', [UserController::class, 'login']);
 Route::get('/menu/index', [UserController::class, 'index']);
 Route::resource('/ticket', TicketController::class);
+
+Route::resource('/kursi', KursiController::class);
