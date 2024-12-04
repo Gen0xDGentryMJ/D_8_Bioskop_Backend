@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Show;
+use App\Models\Transaksi;
 use Exception;
 use Illuminate\Http\Request;
 
-class ShowController extends Controller
+class TransaksiController extends Controller
 {
     public function index()
     {
         try{
-            $data = Show::all();
+            $data = Transaksi::all();
             return response()->json([
                 "status" => true,
                 "message" => "Get Successful",
@@ -30,7 +30,7 @@ class ShowController extends Controller
     public function store(Request $request)
     {
         try{
-            $data = Show::create($request->all());
+            $data = Transaksi::create($request->all());
             return response()->json([
                 "status" => true,
                 "message" => "Create Successful",
@@ -47,7 +47,7 @@ class ShowController extends Controller
     public function show($id)
     {
         try{
-            $data = Show::find($id);
+            $data = Transaksi::find($id);
             return response()->json([
                 "status" => true,
                 "message" => "Get Successful",
@@ -62,53 +62,16 @@ class ShowController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        try{
-            $data = Show::find($id);
-            $data->update($request->all());
-            return response()->json([
-                "status" => true,
-                "message" => "Update Successful",
-                "data" => $data,
-            ],200);
-        }catch(Exception $e){
-            return response()->json([
-                "status" => false,
-                "message" => "Something went wrong",
-                "data" => $e->getMessage(),
-            ],400);
-        }
-    }
-
-    public function destroy($id)
-    {
-        try{
-            $data = Show::find($id);
-            $data->delete();
-            return response()->json([
-                "status" => true,
-                "message" => "Delete Successful",
-                "data" => $data,
-            ],200);
-        }catch(Exception $e){
-            return response()->json([
-                "status" => false,
-                "message" => "Something went wrong",
-                "data" => $e->getMessage(),
-            ],400);
-        }
-    }
     public function search($id)
     {
         try{
             // Menggunakan where untuk mencari berdasarkan nama
-            $data = Show::find($id);
+            $data = Transaksi::find($id);
 
             if ($data->isEmpty()) {
                 return response()->json([
                     "status" => false,
-                    "message" => "Show not found",
+                    "message" => "Transaksi not found",
                     "data" => [],
                 ], 404);
             }

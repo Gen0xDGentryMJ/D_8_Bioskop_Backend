@@ -19,7 +19,6 @@ class User extends Model
         'email',
         'password',
         'image',
-        'face_id',
     ];
 
     /**

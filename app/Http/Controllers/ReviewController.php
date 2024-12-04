@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Show;
+use App\Models\Review;
 use Exception;
 use Illuminate\Http\Request;
 
-class ShowController extends Controller
+class ReviewController extends Controller
 {
     public function index()
     {
         try{
-            $data = Show::all();
+            $data = Review::all();
             return response()->json([
                 "status" => true,
                 "message" => "Get Successful",
@@ -30,7 +30,7 @@ class ShowController extends Controller
     public function store(Request $request)
     {
         try{
-            $data = Show::create($request->all());
+            $data = Review::create($request->all());
             return response()->json([
                 "status" => true,
                 "message" => "Create Successful",
@@ -47,7 +47,7 @@ class ShowController extends Controller
     public function show($id)
     {
         try{
-            $data = Show::find($id);
+            $data = Review::find($id);
             return response()->json([
                 "status" => true,
                 "message" => "Get Successful",
@@ -65,7 +65,7 @@ class ShowController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $data = Show::find($id);
+            $data = Review::find($id);
             $data->update($request->all());
             return response()->json([
                 "status" => true,
@@ -84,7 +84,7 @@ class ShowController extends Controller
     public function destroy($id)
     {
         try{
-            $data = Show::find($id);
+            $data = Review::find($id);
             $data->delete();
             return response()->json([
                 "status" => true,
@@ -102,13 +102,12 @@ class ShowController extends Controller
     public function search($id)
     {
         try{
-            // Menggunakan where untuk mencari berdasarkan nama
-            $data = Show::find($id);
+            $data = Review::find($id);
 
             if ($data->isEmpty()) {
                 return response()->json([
                     "status" => false,
-                    "message" => "Show not found",
+                    "message" => "Review not found",
                     "data" => [],
                 ], 404);
             }

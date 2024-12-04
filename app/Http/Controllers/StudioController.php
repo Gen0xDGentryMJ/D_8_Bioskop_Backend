@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Show;
+use App\Models\Studio;
 use Exception;
 use Illuminate\Http\Request;
 
-class ShowController extends Controller
+class StudioController extends Controller
 {
     public function index()
     {
         try{
-            $data = Show::all();
+            $data = Studio::all();
             return response()->json([
                 "status" => true,
                 "message" => "Get Successful",
@@ -30,7 +30,7 @@ class ShowController extends Controller
     public function store(Request $request)
     {
         try{
-            $data = Show::create($request->all());
+            $data = Studio::create($request->all());
             return response()->json([
                 "status" => true,
                 "message" => "Create Successful",
@@ -47,7 +47,7 @@ class ShowController extends Controller
     public function show($id)
     {
         try{
-            $data = Show::find($id);
+            $data = Studio::find($id);
             return response()->json([
                 "status" => true,
                 "message" => "Get Successful",
@@ -65,7 +65,7 @@ class ShowController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $data = Show::find($id);
+            $data = Studio::find($id);
             $data->update($request->all());
             return response()->json([
                 "status" => true,
@@ -84,7 +84,7 @@ class ShowController extends Controller
     public function destroy($id)
     {
         try{
-            $data = Show::find($id);
+            $data = Studio::find($id);
             $data->delete();
             return response()->json([
                 "status" => true,
@@ -103,12 +103,12 @@ class ShowController extends Controller
     {
         try{
             // Menggunakan where untuk mencari berdasarkan nama
-            $data = Show::find($id);
+            $data = Studio::find($id);
 
             if ($data->isEmpty()) {
                 return response()->json([
                     "status" => false,
-                    "message" => "Show not found",
+                    "message" => "Studio not found",
                     "data" => [],
                 ], 404);
             }
