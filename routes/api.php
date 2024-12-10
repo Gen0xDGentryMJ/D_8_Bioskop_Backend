@@ -6,12 +6,31 @@ use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+//user
 Route::post('/user/register', [UserController::class, 'register']);
 Route::post('/user/login', [UserController::class, 'login']);
-Route::get('/menu/index', [UserController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
+Route::get('/user/{id}', [UserController::class, 'show']);
+
+//menu
+Route::get('/menu', [UserController::class, 'index']);
+//tiket
 Route::resource('/ticket', TicketController::class);
 
+//histori user
+
+//bioskop
+
+//kursi
 Route::resource('/kursi', KursiController::class);
+
+//movie
+
+//review
+
+//show
+
+//studio
+
+//transaksi
+

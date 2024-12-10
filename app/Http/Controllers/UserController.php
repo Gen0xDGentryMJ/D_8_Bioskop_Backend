@@ -17,7 +17,6 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'image' => 'required|string', 
-            'face_id' => 'required|string'
         ]);
 
         $user = User::create([
@@ -25,7 +24,6 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'image' => $request->image, 
-            'face_id' => $request->face_id
         ]);
 
         return response()->json([
@@ -46,11 +44,13 @@ class UserController extends Controller
             return response()->json(['message'=>'Invalid credentials'], 401);
         }
 
-        $token = $user->createToken('Personal Access Token')->plainTextToken;
+        // $token = $user->createToken('Personal Access Token')->plainTextToken;
 
         return response()->json([
+            'user_id' => $user->id,  // Kirimkan user_id
+            'username' => $user->username,
             'detail' => $user,
-            'token' => $token
+            // 'token' => $token
         ]);
     }
 
