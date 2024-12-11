@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BioskopController;
 use App\Http\Controllers\KursiController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
@@ -20,6 +21,7 @@ Route::resource('/ticket', TicketController::class);
 //histori user
 
 //bioskop
+Route::resource('/Bioskop', BioskopController::class);
 
 //kursi
 Route::resource('/kursi', KursiController::class);
