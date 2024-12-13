@@ -7,6 +7,7 @@ use App\Http\Controllers\ShowController;
 use App\Http\Controllers\StudioController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use App\Models\Show;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,7 +37,9 @@ Route::resource('/movie', MovieController::class);
 
 //show
 //Route::resource('/show', ShowController::class);
+Route::get('/show/{id}', [ShowController::class, 'show']);
 Route::post('/show', [ShowController::class, 'findIdByShow']);
+//Route::post('/show', [ShowController::class, 'store']);
 //studio
 Route::resource('/studio', StudioController::class);
 //transaksi

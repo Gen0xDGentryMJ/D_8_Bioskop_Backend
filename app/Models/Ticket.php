@@ -16,5 +16,6 @@ class Ticket extends Model
         'id_show',
         'id_studio',
         'id_kursi',
+        'status'
     ];
 }
