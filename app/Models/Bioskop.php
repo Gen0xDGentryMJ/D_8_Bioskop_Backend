@@ -14,8 +14,8 @@ class Bioskop extends Model
         'lokasi',
         'nama_bioskop',
         'jumlah_studio',
-        'kapasitas_studio',
-        'longitude',
-        'latitude'
+        'kapasitas_bioskop',
+        // 'longitude',
+        // 'latitude'
     ];
 }

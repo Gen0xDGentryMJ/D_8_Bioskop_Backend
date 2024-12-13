@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
-    protected $table ="bioskops";
+    protected $table ="tickets";
     protected $primarykey ="id";
     protected $fillable = [
         'id_movie',

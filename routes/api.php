@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\BioskopController;
 use App\Http\Controllers\KursiController;
+use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ShowController;
+use App\Http\Controllers\StudioController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -27,12 +30,14 @@ Route::resource('/Bioskop', BioskopController::class);
 Route::resource('/kursi', KursiController::class);
 
 //movie
+Route::resource('/movie', MovieController::class);
 
 //review
 
 //show
-
+//Route::resource('/show', ShowController::class);
+Route::post('/show', [ShowController::class, 'findIdByShow']);
 //studio
-
+Route::resource('/studio', StudioController::class);
 //transaksi
 

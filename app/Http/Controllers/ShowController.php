@@ -62,6 +62,25 @@ class ShowController extends Controller
         }
     }
 
+    public function findIdByShow(Request $request)
+    {
+        try{
+            $data = Show::where('show_date', $request->show_date)->first();
+            
+            return response()->json([
+                "status" => true,
+                "message" => "Get Successful",
+                "data" => $data,
+            ],200);
+        }catch(Exception $e){
+            return response()->json([
+                "status" => false,
+                "message" => "Something went wrong",
+                "data" => $e->getMessage(),
+            ],400);
+        }
+    }
+
     public function update(Request $request, $id)
     {
         try{
