@@ -7,11 +7,14 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\HasApiTokens;
+use Log;
 
 class UserController extends Controller
 {
     public function register(Request $request) {
+        try{
         $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -26,10 +29,16 @@ class UserController extends Controller
             'image' => $request->image, 
         ]);
 
-        return response()->json([
-            'user'=>$user,
-            'message'=>'User registered successfully'
-        ], 201);
+            return response()->json([
+                'user'=>$user,
+                'message'=>'User registered successfully'
+            ], 201);
+        }catch(e){
+            return response()->json([
+                'user'=> null,
+                'message'=>'error occured'
+            ], 500);
+        }
     }
 
     public function login(Request $request) {
@@ -37,20 +46,28 @@ class UserController extends Controller
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+        // gen@gmail.com
+        // 12345678
+        $user = User::where('email',$request->email)->first();
+        Log::info('Login attempt:', ['email' => $request->email, 'password' => $request->password]);
+        Log::info('Login attempt answer:', ['email' => $user->email, 'password' => $user->password]);
 
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
+        // return response()->json(['message'=>$request->email], 401);
+        if(!$user){
+            return response()->json(['message'=>"user not found"], 401);
+        }
+        if (!Hash::check($request->password, $user->password)) {
             return response()->json(['message'=>'Invalid credentials'], 401);
         }
+        // $token = $user->createToken('Personal Token')->plainTextToken;
 
-        // $token = $user->createToken('Personal Access Token')->plainTextToken;
+        $token = $user->createToken('Personal Access Token')->plainTextToken;
 
         return response()->json([
             'user_id' => $user->id,  // Kirimkan user_id
             'username' => $user->username,
             'detail' => $user,
-            // 'token' => $token
+            'token' => $token
         ]);
     }
 
@@ -63,6 +80,7 @@ class UserController extends Controller
                 "message" => "Get Successful",
                 "data" => $data,
             ],200);
+
         }catch(Exception $e){
             return response()->json([
                 "status" => false,
@@ -93,8 +111,46 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $data = User::find($id);
-            $data->update($request->all());
+            $data = User::findOrFail($id);
+
+            // if($data->id !== Auth::id()){
+            //     return response()->json(['message' => 'dilarang masuk']);
+            // }
+            $validData = $request->validate([
+                'username' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:8',
+            ]);
+
+            $data->update($validData);
+            return response()->json([
+                "status" => true,
+                "message" => "Update Data Successful",
+                "data" => $data,
+            ],200);
+        }catch(Exception $e){
+            return response()->json([
+                "status" => false,
+                "message" => "Something went wrong",
+                "data" => $e->getMessage(),
+            ],400);
+        }
+    }
+    public function updateProfilePicture(Request $request, $id)
+    {
+        try{
+            $data = User::findOrFail($id);
+
+            // if($data->id !== Auth::id()){
+            //     return response()->json(['message' => 'dilarang masuk']);
+            // }
+
+            $validData = $request->validate([
+                'image' => 'nullable|string',
+            ]);
+            
+            $data->update($validData);
+            
             return response()->json([
                 "status" => true,
                 "message" => "Update Successful",
@@ -113,6 +169,9 @@ class UserController extends Controller
     {
         try{
             $data = User::find($id);
+            if($data->id !== Auth::id()){
+                return response()->json(['message' => 'dilarang masuk']);
+            }
             $data->delete();
             return response()->json([
                 "status" => true,
